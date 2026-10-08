@@ -47,6 +47,16 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
+      - run: cp src/x86_ref_mcp/data/xed-insns.json.gz "$RUNNER_TEMP/committed.json.gz"
       - run: python tools/build_data.py
       - name: committed dataset matches a fresh build
-        run: git diff --exit-code -- src/x86_ref_mcp/data/xed-insns.json.gz
+        # Compare the decompressed data, not the .gz bytes: deflate output
+        # can differ between zlib builds (Windows vs Linux) for identical input.
+        run: |
+          python - <<'PY'
+          import gzip, os, sys
+          a = gzip.decompress(open(os.path.join(os.environ["RUNNER_TEMP"], "committed.json.gz"), "rb").read())
+          b = gzip.decompress(open("src/x86_ref_mcp/data/xed-insns.json.gz", "rb").read())
+          print(f"committed {len(a)} bytes, rebuilt {len(b)} bytes")
+          sys.exit(0 if a == b else "dataset differs from a fresh XED build")
+          PY

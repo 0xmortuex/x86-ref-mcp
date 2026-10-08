@@ -32,14 +32,14 @@ FLAG_NAMES = ("cf", "pf", "af", "zf", "sf", "tf", "if", "df", "of", "iopl", "nt"
 
 @functools.lru_cache(maxsize=1)
 def dataset() -> dict[str, list[Form]]:
-    raw = resources.files("x86_ref_mcp").joinpath("data", "xed-insns.json.gz").read_bytes()
+    raw = resources.files("x86_ref_mcp").joinpath("data").joinpath("xed-insns.json.gz").read_bytes()
     data: dict[str, list[Form]] = json.loads(gzip.decompress(raw))
     return data
 
 
 @functools.lru_cache(maxsize=1)
 def provenance() -> dict[str, Any]:
-    text = resources.files("x86_ref_mcp").joinpath("data", "provenance.json").read_text("utf-8")
+    text = resources.files("x86_ref_mcp").joinpath("data").joinpath("provenance.json").read_text("utf-8")
     prov: dict[str, Any] = json.loads(text)
     return prov
 
