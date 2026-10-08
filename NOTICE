@@ -1,0 +1,24 @@
+x86-ref-mcp
+Copyright (c) 2026 0xmortuex
+Licensed under the MIT License (see LICENSE), except as noted below.
+
+This product includes data derived from Intel XED (X86 Encoder Decoder),
+https://github.com/intelxed/xed, Copyright (c) Intel Corporation,
+licensed under the Apache License, Version 2.0. A copy of that license is
+included as src/x86_ref_mcp/data/LICENSE-XED.txt (shipped inside the package).
+
+Derived file: src/x86_ref_mcp/data/xed-insns.json.gz
+  Source: XED datafiles at commit 0bcb6237345c5066726dcc08b3d87928df3b5b26,
+  merged by XED's own generator (mfile.py just-prep, mbuild commit
+  1b437e409221a2b5703b4d8896baa20d43e4ba1a) and parsed by XED's
+  pysrc/read_xed_db.py.
+  Changes: a subset of each instruction record (iclass, iform, operands,
+  ISA set, extension, category, CPL, attributes, flags, exception class,
+  CPUID requirements, mode restriction, disassembly names) was extracted
+  and re-serialised as JSON by tools/build_data.py. No XED source code is
+  included.
+
+The register, MSR and exception-vector tables (src/x86_ref_mcp/arch.py)
+and the curated notes (src/x86_ref_mcp/exceptions.py) were written for
+this project and are MIT-licensed. No text from the Intel(R) 64 and IA-32
+Architectures Software Developer's Manual is included.
